@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: production
+        image: backend
+        name: backend
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+      restartPolicy: Always
