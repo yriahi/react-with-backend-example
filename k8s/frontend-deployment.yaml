@@ -16,11 +16,19 @@ spec:
     spec:
       containers:
       - env:
-        - name: REACT_APP_API_URL
-          value: http://backend:5000
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              key: PORT
+              name: frontend-env
+        - name: REACT_APP_BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              key: REACT_APP_BACKEND_URL
+              name: frontend-env
         image: frontend
         name: frontend
         ports:
-        - containerPort: 3000
+        - containerPort: 80
           protocol: TCP
       restartPolicy: Always

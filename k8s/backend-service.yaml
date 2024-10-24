@@ -10,4 +10,4 @@ spec:
     port: 5000
     targetPort: 5000
   selector:
-    app: backend
+    io.kompose.service: backend

@@ -16,8 +16,11 @@ spec:
     spec:
       containers:
       - env:
-        - name: NODE_ENV
-          value: production
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              key: PORT
+              name: backend-env
         image: backend
         name: backend
         ports:
