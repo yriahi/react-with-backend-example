@@ -3,14 +3,22 @@ services:
     build: ./backend
     ports:
       - '5000:5000'
-    environment:
-      - NODE_ENV=production
+    env_file:
+      - ./backend/.env
+    networks:
+      - my-network
 
   frontend:
     build: ./frontend
     ports:
-      - '3000:3000'
-    environment:
-      - REACT_APP_API_URL=http://backend:5000
+      - '3000:80'
+    env_file:
+      - ./frontend/.env
     depends_on:
       - backend
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

@@ -1,21 +1,25 @@
-# Use Node.js 20 image
-FROM node:20
+# Use Node.js LTS version as the base image
+FROM node:16-alpine AS build
 
-# Create app directory
+# Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Install app dependencies
+# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the app files
+# Copy the rest of the application code
 COPY . .
 
-# Build the app
+# Build the React app for production
 RUN npm run build
 
-# Expose port 3000 for the React app
-EXPOSE 3000
+# Use nginx to serve the built React app
+FROM nginx:alpine
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-# Start the application
-CMD [ "npm", "start" ]
+# Expose port 80 to serve the app
+EXPOSE 80
+
+# Start nginx server
+CMD ["nginx", "-g", "daemon off;"]

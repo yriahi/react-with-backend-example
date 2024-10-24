@@ -1,19 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// Enable CORS for all origins
+app.use(cors({ origin: '*' }));
 
-app.get('/api/data', (req, res) => {
-  const messages = [
-    'Hello from the backend!',
-    'This is another message.',
-  ];
-  res.json(messages);
+app.get('/api/message', (req, res) => {
+  res.json({ message: 'Hello from the backend!' });
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Backend server is running on port ${PORT}`);
 });
